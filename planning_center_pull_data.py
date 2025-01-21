@@ -22,7 +22,7 @@ me_topics = ['people', 'services']
 
 
 CLIENT_ID = os.getenv('PLANNING_CENTER_SNYDER_CLIENT_ID')
-SECRET = os.getenv('PLANNING_CENTER_SNYDER_SECRET)
+SECRET = os.getenv('PLANNING_CENTER_SNYDER_SECRET')
 
 
 BASE_URL = 'https://api.planningcenteronline.com/'
