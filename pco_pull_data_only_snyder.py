@@ -4,7 +4,7 @@
 
 #Set path in order to import module code
 import os
-os.chdir("/Users/dsnyder/Downloads/code/tdc/")
+os.chdir("/Users/dsnyder/code/tdc/")
 
 from utils import *
 
@@ -13,16 +13,18 @@ from utils import *
 # org_id = '49547'     #O
 
 #all possible API topics
-topics = ['people', 'calendar', 'check-ins', 
-          'services', 'groups', 'publishing', 
-          'giving']
+topics = ['people', 'check-ins', 'groups', 'giving', 'services']
+          
+          'check-ins', 
+            'publishing', 
+          ]
 
 #ones I can access for own user account
-me_topics = ['people', 'services']
+# me_topics = ['people', 'services', 'groups']
 
 
-CLIENT_ID = os.getenv('PLANNING_CENTER_SNYDER_CLIENT_ID')
-SECRET = os.getenv('PLANNING_CENTER_SNYDER_SECRET')
+CLIENT_ID = os.getenv('TDC_ADMIN_CLIENT_ID')
+SECRET = os.getenv('TDC_ADMIN_SECRET')
 
 
 BASE_URL = 'https://api.planningcenteronline.com/'
@@ -39,6 +41,8 @@ def get_data(url):
     
     return resp.json()
     
+
+ME_URL
 
 base_json = get_data(ME_URL)['data']
 
