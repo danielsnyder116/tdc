@@ -1,5 +1,5 @@
 #--------------------------------------------------------
-# CODE TO CONNECT TO PLANNING CENTER API AND SAVE OUTPUT
+# Script to Pull *ALL* Data From PCO
 #--------------------------------------------------------
 
 #Set path in order to import module code
