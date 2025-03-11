@@ -36,43 +36,37 @@ while True:
         
     pco_lists.append(result['data'])
 
+
+#Transformations to convert to spreadsheet format (ss)
 df_lists = to_flat_df(pco_lists)
+df_lists = ( df_lists[['name', 'updated_at',
+                       'total_people', 'tdc_pulled_at_utc']]
+                    .rename(columns={'name':'list_name',
+                                     'updated_at':'date'}) 
+                    .sort_values('list_name')
+                    .reset_index(drop=True)
+            )
 
-#Get unique list links to pull nested relationship data
-rel_urls = df_lists['links_self'].to_list()
+df_lists['date'] = pd.to_datetime(df_lists['date']).dt.date
+df_lists = df_lists[df_lists['list_name'].str.contains('Mission.*')]
 
-rel_urls
-
-test = get_data(url=rel_urls[0])
-
-test['data']['links']
-
-
-
-
-# result = get_data(BASE_URL + f"{topic}/v2/")
-#         initial_results.append(result)
-#     except Exception as e:
-#         print(e)
-        
-        
-# root = initial_results[3]
-# endpoints = list(root['data']['links'].values())
+#PIVOT!
+df_ss = df_lists.pivot(index='date', columns='list_name', values='total_people')
 
 
-# second_results = []
-# for endpoint in endpoints:
-#     print(endpoint)
-#     second_result = get_data(endpoint)
-#     second_results.append(second_result)
-    
 
-# for num, result in enumerate(second_results):
-#     print(num)
-  
-    
-#     with open(f'groups_{num}_second_results.json', 'w') as file:
-#         json.dump(result, file)
-    
+#FILL IN SPREADSHEET
 
-        
+
+
+
+
+
+
+
+# #Don't actually need this at the moment, just the total stat
+# #Get unique list links to pull nested relationship data
+# rel_urls = df_lists['links_self'].to_list()
+# rel_urls
+# test = get_data(url=rel_urls[0])
+# test['data']['links']

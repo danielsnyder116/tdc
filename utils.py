@@ -11,6 +11,9 @@ import json
 import os    #just for env vars
 from datetime import datetime, timezone
 
+#Set Path
+os.chdir("Users/dsnyder/code/tdc/")
+
 
 #TODO: ADD TYPE HINTING
 # from typing import Any, Dict, List
