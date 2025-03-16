@@ -5,6 +5,20 @@
 from utils import *
 from google_connect_utils import *
 
+
+
+# WRITE DATA TO GOOGLE DRIVE 
+#----------------------------
+
+
+
+service = build("sheets", "v4", credentials=creds)
+
+service.spreadsheets().execute()
+
+
+# READ IN SHEET 
+#-------------------
 SHEET_ID = "1OGk1qafnCpSmkrM15q6CaqBgtOfDhGm3P1fCqMSx8DA"
 
 #Connect to site (service) and GET request for data

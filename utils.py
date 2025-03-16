@@ -12,12 +12,10 @@ import os    #just for env vars
 from datetime import datetime, timezone
 
 #Set Path
-os.chdir("Users/dsnyder/code/tdc/")
-
+os.chdir("/Users/dsnyder/code/tdc/")
 
 #TODO: ADD TYPE HINTING
 # from typing import Any, Dict, List
-
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', 300)
@@ -31,7 +29,6 @@ with open("/Users/dsnyder/code/docs/pco_creds.json", "r") as file:
 PCO_CLIENT_ID = creds['client_id']
 PCO_SECRET = creds['secret']
 PCO_ORG_ID = creds['org_id']
-
 
 
 if None in [PCO_CLIENT_ID, PCO_SECRET, PCO_ORG_ID]:
@@ -48,7 +45,7 @@ PCO_BASE_URL = 'https://api.planningcenteronline.com/'
 
 
 #Functions
-def get_data(url: str):
+def ping_api(url: str):
     """Handling boilerplate code for making API request
     Returns data in json format
     """
@@ -58,6 +55,43 @@ def get_data(url: str):
     # print(resp.status_code)
     
     return resp.json()
+
+
+def pull_data(topic='people', sub_topic='lists', chunk_size= 87):
+    """Function that iterates through JSON API and pulls data
+       returns a list of dictionaries
+    """
+    
+        
+    url = PCO_BASE_URL + f"{topic}/v2/{sub_topic}?per_page={chunk_size}"
+    
+    #Limit to per_page param is 100
+    chunk_size = 87
+    pco_lists = []
+    
+    #As long as there is a new chunk, keep going
+    #TODO: determine if better to use total_count to then display chunks?
+    while True:
+        
+        #First call
+        if not pco_lists:
+            result = ping_api(url)
+            
+            total_count = result['meta']['total_count']
+            print(f"Total number of records: {total_count} with chunk size {chunk_size}")
+        
+        #Use provided link to iterate through next chunk
+        #Once no more 'next' urls, we're done and break out of loop
+        else:
+            if 'next' in result['links'].keys():
+                result = ping_api(url=result['links']['next'])
+            else:
+                break
+            
+        pco_lists.append(result['data'])
+    
+    return pco_lists
+
 
 
 def to_flat_df(data_pulls):

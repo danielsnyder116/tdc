@@ -1,5 +1,5 @@
 #-----------------------------------
-# Generate GOOGLE Creds
+# Generate & Load GOOGLE Creds
 #-----------------------------------
 
 #Installing needed google api packages
